@@ -49,6 +49,8 @@
 		6382D71121C4D0EF008BAA58 /* UIImage+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70621C4D0EF008BAA58 /* UIImage+FlatUI.m */; };
 		6382D71221C4D0EF008BAA58 /* FUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70A21C4D0EF008BAA58 /* FUIButton.m */; };
 		6382D71321C4D0EF008BAA58 /* UIColor+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70B21C4D0EF008BAA58 /* UIColor+FlatUI.m */; };
+		63C6E03921C625370006DE2D /* InfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03721C625360006DE2D /* InfiniteScrollView.m */; };
+		63C6E03C21C625830006DE2D /* BasicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03A21C625830006DE2D /* BasicScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +140,10 @@
 		6382D70921C4D0EF008BAA58 /* UIImage+FlatUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FlatUI.h"; sourceTree = "<group>"; };
 		6382D70A21C4D0EF008BAA58 /* FUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUIButton.m; sourceTree = "<group>"; };
 		6382D70B21C4D0EF008BAA58 /* UIColor+FlatUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatUI.m"; sourceTree = "<group>"; };
+		63C6E03721C625360006DE2D /* InfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfiniteScrollView.m; sourceTree = "<group>"; };
+		63C6E03821C625370006DE2D /* InfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteScrollView.h; sourceTree = "<group>"; };
+		63C6E03A21C625830006DE2D /* BasicScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicScrollView.m; sourceTree = "<group>"; };
+		63C6E03B21C625830006DE2D /* BasicScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicScrollView.h; sourceTree = "<group>"; };
 		B7B342E7ABBED5CB616673C7 /* libPods-CFQP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CFQP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04025C02A0D5058BD90C483 /* Pods-CFQP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFQP.release.xcconfig"; path = "Pods/Target Support Files/Pods-CFQP/Pods-CFQP.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +190,7 @@
 				6382D68021C4C50E008BAA58 /* AppDelegate.m */,
 				6382D68221C4C50E008BAA58 /* ViewController.h */,
 				6382D68321C4C50E008BAA58 /* ViewController.m */,
+				63C6E03621C6252A0006DE2D /* 自定义视图 */,
 				6382D6E321C4CDBC008BAA58 /* Support */,
 			);
 			path = CFQP;
@@ -360,6 +367,17 @@
 			path = FlatButton;
 			sourceTree = "<group>";
 		};
+		63C6E03621C6252A0006DE2D /* 自定义视图 */ = {
+			isa = PBXGroup;
+			children = (
+				63C6E03B21C625830006DE2D /* BasicScrollView.h */,
+				63C6E03A21C625830006DE2D /* BasicScrollView.m */,
+				63C6E03821C625370006DE2D /* InfiniteScrollView.h */,
+				63C6E03721C625360006DE2D /* InfiniteScrollView.m */,
+			);
+			path = "自定义视图";
+			sourceTree = "<group>";
+		};
 		7543634DF2EEFCD8781F226A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -498,6 +516,7 @@
 				6382D6F621C4D0AF008BAA58 /* Tools.m in Sources */,
 				6382D70D21C4D0EF008BAA58 /* JPEngine.m in Sources */,
 				6382D70C21C4D0EF008BAA58 /* QQButton.m in Sources */,
+				63C6E03C21C625830006DE2D /* BasicScrollView.m in Sources */,
 				6382D69921C4CBDF008BAA58 /* BasicNavigationController.m in Sources */,
 				6382D6C721C4CD8A008BAA58 /* UIImage+BlurredFrame.m in Sources */,
 				6382D6CB21C4CD8A008BAA58 /* NSMutableAttributedString+Additional.m in Sources */,
@@ -520,6 +539,7 @@
 				6382D6F521C4D0AF008BAA58 /* NetworkBusiness.m in Sources */,
 				6382D71321C4D0EF008BAA58 /* UIColor+FlatUI.m in Sources */,
 				6382D6F821C4D0AF008BAA58 /* NetworkManager.m in Sources */,
+				63C6E03921C625370006DE2D /* InfiniteScrollView.m in Sources */,
 				6382D6D521C4CD8A008BAA58 /* NSDictionary+HYBUnicodeReadable.m in Sources */,
 				6382D6CE21C4CD8A008BAA58 /* UIButton+Additional.m in Sources */,
 				6382D6D721C4CD8A008BAA58 /* NSArray+Additional.m in Sources */,

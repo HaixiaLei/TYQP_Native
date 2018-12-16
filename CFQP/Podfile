@@ -1,0 +1,25 @@
+platform :ios, '9.0'
+inhibit_all_warnings!
+target 'CFQP' do
+
+#pod "AFNetworking", '~> 3.2.1'
+#pod 'MBProgressHUD', '~> 1.1.0'
+#pod 'SDWebImage', '~> 4.4.1'
+#pod 'pop', '~> 1.0.10'
+#pod 'IQKeyboardManager', '~> 6.0.4'
+#pod 'MJExtension'
+#pod 'AVOSCloud'               # 数据存储、短信、云引擎调用等基础服务模块
+##pod 'AVOSCloudIM'             # 实时通信模块
+
+#pod 'LongImageCache'
+pod "AFNetworking", '~> 3.2.1'
+pod 'MBProgressHUD', '~> 1.1.0'
+pod 'SDWebImage', '~> 4.4.1'
+#pod 'pop', '~> 1.0.10'
+pod 'IQKeyboardManager', '~> 6.0.4'
+pod 'MJExtension'
+pod 'MJRefresh'
+pod 'AVOSCloud'               # 数据存储、短信、云引擎调用等基础服务模块
+#pod 'AVOSCloudIM'             # 实时通信模块
+
+end

@@ -1,0 +1,64 @@
+//
+//  PrefixHeader.pch
+//  DemonProject
+//
+//  Created by david on 2018/7/9.
+//  Copyright © 2018年 david. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+/*数据模型*/
+//#import <MJExtension.h>
+//#import "Model_login.h"
+//#import "Model_Kefu.h"
+//#import "Model_DepositeList.h"
+//#import "Model_HgGame.h"
+
+/*回调函数*/
+typedef void (^Callback)(NSError *error, int code, id response);
+
+/*宏定义*/
+#import "Define_UI.h"
+#import "Define_Unicode.h"
+#import "Define_Enum.h"
+#import "Define_Keys.h"
+
+
+#import <IQKeyboardManager.h>
+#import "NSDate+Extension.h"
+#import "EnlargeButton.h"
+#import "UIButton+Additional.h"
+#import <MBProgressHUD.h>
+#import "UIView+Additional.h"
+#import "NSString+Additional.h"
+#import "NSMutableAttributedString+Additional.h"
+
+#import "Singleton.h"
+#import "Tools.h"
+#import "NetworkBusiness.h"
+#import "NSTimer+Additional.h"
+#import "NSDictionary+Additional.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif

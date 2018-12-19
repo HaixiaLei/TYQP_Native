@@ -29,5 +29,9 @@ static CGFloat NetworkRequestTimeout = 21.f;
 
 #pragma mark Http Get请求
 + (void)httpGetForUrl:(NSString *)url Params:(NSDictionary *)params show:(BOOL)show block:(Callback)block;
+
+
+#pragma mark http 下载文件
++(void)downloadFileFor:(NSString *)url name:(NSString *)name block:(Callback)block;
 @end
 

@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "InfiniteScrollView.h"
 #import "ScrollingNoticeView.h"
+#import "LoginViewController.h"
 
 @interface ViewController ()
 
@@ -49,14 +50,99 @@
     NSInteger countdownVVV;
 }
 
+//判断和选择最佳域名
+- (void)getYuming {
+    NSString *host = HOST_P;
+    if (!host || !host.length) {
+        [[NSUserDefaults standardUserDefaults] setObject:DEFAULT_URL forKey:@"host"];
+    }
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __block BOOL isReach = NO;
+    dispatch_async(dispatch_get_global_queue(0, 0),^{
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:URL_REQUEST]];
+        if (!data) {
+            dispatch_async(dispatch_get_main_queue(),^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self requests];
+            });
+            return;
+        }
+        NSDictionary *hostDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSLog(@"获取到的域名列表是:%@",hostDic);
+        if (!hostDic) {
+            dispatch_async(dispatch_get_main_queue(),^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self requests];
+            });
+            return;
+        }
+        NSArray *list = [hostDic objectForKey:@"list"];
+        __block NSInteger requestCount = 0;//用来统计请求了多少个，如果个数等于总数，还是不行
+        for (NSDictionary *dic in list) {
+            __block NSString *url = [dic stringForKey:@"url"];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                NSString *str = [url stringByAppendingString:Url_CheckCDN];
+                NSLog(@"请求:%@",str);
+                NSString *response = [NSString stringWithContentsOfURL:[NSURL URLWithString:str] encoding:NSUTF8StringEncoding error:NULL];
+                ++requestCount;
+                if (!isReach) {
+                    if ([response containString:@"status"] && [response containString:@"200"]) {
+                        isReach = YES;
+                        NSLog(@"最快返回的域名是:%@",url);
+                        dispatch_async(dispatch_get_main_queue(),^{
+                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                            [[NSUserDefaults standardUserDefaults] setObject:url forKey:@"host"];
+                            [self requests];
+                        });
+                    }
+                }
+                if ((requestCount == list.count) && !isReach) {
+                    NSLog(@"====>域名列表一个都不通");
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [Tools showText:@"网络缓慢，请切换网络或联系客服"];
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [self requests];
+                    });
+                }
+            });
+        }
+    });
+}
+
+- (void)requests {
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getYuming];
     [self setupView];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [scrollingNoticeViewVVV removeFromSuperview];
+    scrollingNoticeViewVVV = nil;
+    _vvv.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateGonggao];
+}
+
+- (void)pushLogin {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 1.0f;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    transition.type = @"rippleEffect";
+    transition.subtype = kCATransitionFromRight;
+//    transition.delegate = self;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+
+    LoginViewController *logo = [[LoginViewController alloc] init];
+    [self.navigationController pushViewController:logo animated:NO];
 }
 
 - (void)setupView {
@@ -253,14 +339,10 @@
     [foot4 addTarget:self action:@selector(onFootButton:) forControlEvents:UIControlEventTouchUpInside];
     
     annouceArrayVVV = @[@"恭喜XXX获得10万元！ 真TMD太神了！！！",];
-    _vvv = [[UIImageView alloc] initWithFrame:CGRectMake(heightTo4_7(280), heightTo4_7(70), self.view.width-heightTo4_7(560), heightTo4_7(60))];
+    _vvv = [[UIImageView alloc] initWithFrame:CGRectMake(heightTo4_7(280), heightTo4_7(65), self.view.width-heightTo4_7(560), heightTo4_7(60))];
     _vvv.image = [UIImage imageNamed:@"home_vvv"];
     [self.view addSubview:_vvv];
     _vvv.hidden = YES;
-    
-    
-    
-    
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveNotiApplicationDidBecomeActive:) name:Noti_Application_Did_Become_Active object:nil];
@@ -278,7 +360,7 @@
 
 - (void)on1SecondCountDown:(NSNotification *)notification {
     ++countdownVVV;
-    if (countdownVVV >= 10) {
+    if (countdownVVV >= 16) {
         countdownVVV = -100;
         [self updateGonggaoVVV];
     }
@@ -316,7 +398,7 @@
 }
 
 - (void)onLoginButton {
-    
+    [self pushLogin];
 }
 
 - (void)onRefresh {

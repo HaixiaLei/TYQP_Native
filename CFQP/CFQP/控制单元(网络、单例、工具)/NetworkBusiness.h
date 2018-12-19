@@ -23,9 +23,17 @@
 #endif
 
 
+#define Url_validatecode                     @"include/validatecode/captcha.php"
+#define Url_register                         @"api/register.php"
+#define Url_login                            @"api/login.php"
+#define Url_forget_pwd                       @"api/forget_pwd.php"
 
 @interface NetworkBusiness : NSObject
 
++ (void)validatecodeBlock:(Callback)block;
++ (void)registerReference:(NSString *)reference username:(NSString *)username password:(NSString *)password verifycode:(NSString *)verifycode Block:(Callback)block;
++ (void)loginUsername:(NSString *)username passwd:(NSString *)passwd sign:(NSString *)sign Block:(Callback)block;
++ (void)forget_pwd:(NSString *)username realname:(NSString *)realname withdraw_password:(NSString *)withdraw_password new_password:(NSString *)new_password Block:(Callback)block;
 
 @end
 

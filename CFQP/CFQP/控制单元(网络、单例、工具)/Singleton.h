@@ -26,6 +26,7 @@ extern AppDelegate *mainDelegate;
 @property(nonatomic, copy) NSString *cookie;
 
 /*登录信息*/
+@property(nonatomic, assign) BOOL isShiwan;
 @property(nonatomic, copy) NSString *password;
 @property(nonatomic, copy) NSString *Agents;
 @property(nonatomic, copy) NSString *isTest;

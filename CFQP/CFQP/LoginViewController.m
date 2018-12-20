@@ -580,10 +580,11 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [Singleton shared].isShiwan = NO;
                 if (jizhuButton.selected) {
-                    [[TouchID_FaceID shared] setAccount:tf_denglu0.text withPassword:tf_denglu1.text];
+                    [[TouchID_FaceID shared] setAccount:tfzh0.text withPassword:tfzh3.text];
                 } else {
-                    [[TouchID_FaceID shared] setAccount:tf_denglu0.text withPassword:@""];
+                    [[TouchID_FaceID shared] setAccount:tfzh0.text withPassword:@""];
                 }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
                 [self onClose];
@@ -608,6 +609,7 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [Singleton shared].isShiwan = NO;
                 if (jizhuButton.selected) {
                     [[TouchID_FaceID shared] setAccount:tf_denglu0.text withPassword:tf_denglu1.text];
                 } else {
@@ -672,6 +674,12 @@
             
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [Singleton shared].isShiwan = NO;
+                if (jizhuButton.selected) {
+                    [[TouchID_FaceID shared] setAccount:tf_zhanghao.text withPassword:tf_mima.text];
+                } else {
+                    [[TouchID_FaceID shared] setAccount:tf_zhanghao.text withPassword:@""];
+                }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
                 [self onClose];
             }
@@ -687,6 +695,7 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [Singleton shared].isShiwan = YES;
                 [self setValuesWithDict:[response objectForKey:@"data"]];
                 [self onClose];
             }

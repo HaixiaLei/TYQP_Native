@@ -21,6 +21,8 @@
     UIImageView *bgImageView;
     UIImageView *topImageView;
     UIButton *loginButton;//请先登录
+    UIImageView *userHeadIv;
+    UILabel *usernameLabel;
     UILabel *moneyLabel;
     UIButton *exchangeButton;//额度转换按钮
     UIButton *soundButton;
@@ -46,8 +48,9 @@
     
     UIImageView *foot;
     ScrollingNoticeView *scrollingNoticeViewVVV;//偶然弹出的xxx获得100万
-    NSArray *annouceArrayVVV;
     NSInteger countdownVVV;
+    
+    UIButton *showCover;//弹出小窗口时的底部覆盖
 }
 
 //判断和选择最佳域名
@@ -118,18 +121,40 @@
     [super viewDidLoad];
     [self getYuming];
     [self setupView];
+    [self setNotifications];
+}
+
+- (void)setNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveNotiApplicationDidBecomeActive:) name:Noti_Application_Did_Become_Active object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(on1SecondCountDown:) name:Noti_Timer_1second object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [scrollingNoticeViewVVV removeFromSuperview];
-    scrollingNoticeViewVVV = nil;
-    _vvv.hidden = YES;
+    [self removeVVV];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateGonggao];
+    [self removeVVV];
+    [self updateInfo];
+}
+
+- (void)updateInfo {
+    if ([Singleton shared].isLogin) {
+        userHeadIv.image = [UIImage imageNamed:@"userhead"];
+        moneyLabel.text = [Singleton shared].Money;
+        if ([Singleton shared].isShiwan) {
+            usernameLabel.text = @"试玩玩家";
+        } else {
+            usernameLabel.text = [Singleton shared].UserName;
+        }
+    } else {
+        userHeadIv.image = [UIImage imageNamed:@"home_head"];
+        usernameLabel.text = @"请先登录";
+        moneyLabel.text = @"0";
+    }
 }
 
 - (void)pushLogin {
@@ -162,17 +187,17 @@
     [loginButton addTarget:self action:@selector(onLoginButton) forControlEvents:UIControlEventTouchUpInside];
     
     
-    UIImageView *head = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenX?(0.2):(0.09))*loginButton.width, 0.125*loginButton.height, 0.70*loginButton.height, 0.7*topImageView.height)];
-    head.image = [UIImage imageNamed:@"home_head"];
-    [loginButton addSubview:head];
-    head.layer.cornerRadius = 0.5*head.height;
-    head.layer.masksToBounds = YES;
+    userHeadIv = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenX?(0.2):(0.09))*loginButton.width, 0.125*loginButton.height, 0.70*loginButton.height, 0.7*topImageView.height)];
+    userHeadIv.image = [UIImage imageNamed:@"home_head"];
+    [loginButton addSubview:userHeadIv];
+    userHeadIv.layer.cornerRadius = 0.5*userHeadIv.height;
+    userHeadIv.layer.masksToBounds = YES;
     
-    UILabel *plslogin = [[UILabel alloc] initWithFrame:CGRectMake(head.right+heightTo4_7(15), 0, 100, loginButton.height*0.93)];
-    plslogin.text = @"请先登录";
-    plslogin.textColor = ColorHex(0xffffff);
-    plslogin.font = SystemFontBy4(13.2);
-    [loginButton addSubview:plslogin];
+    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(userHeadIv.right+heightTo4_7(15), 0, 100, loginButton.height*0.93)];
+    usernameLabel.text = @"请先登录";
+    usernameLabel.textColor = ColorHex(0xffffff);
+    usernameLabel.font = SystemFontBy4(13.2);
+    [loginButton addSubview:usernameLabel];
     
     UIImageView *money= [[UIImageView alloc] initWithFrame:CGRectMake(0.26*topImageView.width, 0.09*topImageView.height, 0.197*topImageView.width, 0.78*topImageView.height)];
     [topImageView addSubview:money];
@@ -207,6 +232,11 @@
     [soundButton setBackgroundImage:[UIImage imageNamed:@"home_sound0"] forState:UIControlStateSelected];
     [soundButton addTarget:self action:@selector(onSound) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:soundButton];
+    if ([Singleton shared].userSetSoundOff) {
+        soundButton.selected = YES;
+    } else {
+        [[Singleton shared] playBackgroundSound];
+    }
     
     qiandaoButton = [[UIButton alloc] initWithFrame:CGRectMake(soundButton.right+heightTo4_7(38), soundButton.top, soundButton.width, soundButton.height)];
     [qiandaoButton setBackgroundImage:[UIImage imageNamed:@"home_qiandao"] forState:0];
@@ -338,20 +368,18 @@
     foot4.tag = 4;
     [foot4 addTarget:self action:@selector(onFootButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    annouceArrayVVV = @[@"恭喜XXX获得10万元！ 真TMD太神了！！！",];
     _vvv = [[UIImageView alloc] initWithFrame:CGRectMake(heightTo4_7(280), heightTo4_7(65), self.view.width-heightTo4_7(560), heightTo4_7(60))];
     _vvv.image = [UIImage imageNamed:@"home_vvv"];
     [self.view addSubview:_vvv];
     _vvv.hidden = YES;
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveNotiApplicationDidBecomeActive:) name:Noti_Application_Did_Become_Active object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(on1SecondCountDown:) name:Noti_Timer_1second object:nil];
 }
 
 #pragma mark 接收到通知
 - (void)onReceiveNotiApplicationDidBecomeActive:(NSNotification *)notification {
     NSLog(@"ViewController: ApplicationDidBecomeActive");
+    [scrollingNoticeViewVVV removeFromSuperview];
+    scrollingNoticeViewVVV = nil;
+    _vvv.hidden = YES;
     
     [self updateGonggao];
     [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -360,7 +388,7 @@
 
 - (void)on1SecondCountDown:(NSNotification *)notification {
     ++countdownVVV;
-    if (countdownVVV >= 16) {
+    if (countdownVVV >= 25) {
         countdownVVV = -100;
         [self updateGonggaoVVV];
     }
@@ -380,14 +408,23 @@
 }
 
 - (void)updateGonggaoVVV {
-    _vvv.hidden = NO;
-    [scrollingNoticeViewVVV removeFromSuperview];
-    scrollingNoticeViewVVV = nil;
-    scrollingNoticeViewVVV = [[ScrollingNoticeView alloc] initWithFrame:CGRectMake(heightTo4_7(15), 0, _vvv.width-heightTo4_7(30), _vvv.height)];
-    scrollingNoticeViewVVV.speed = 50.0;
-    [_vvv addSubview:scrollingNoticeViewVVV];
-    [scrollingNoticeViewVVV scrollWithMessages:annouceArrayVVV];
-    [self performSelector:@selector(removeVVV) withObject:nil afterDelay:13];
+    [NetworkBusiness winningnewsBlock:^(NSError *error, int code, id response) {
+        if (code == 200) {
+            NSString *mess = [response stringForKey:@"data"];
+            _vvv.hidden = NO;
+            [scrollingNoticeViewVVV removeFromSuperview];
+            scrollingNoticeViewVVV = nil;
+            scrollingNoticeViewVVV = [[ScrollingNoticeView alloc] initWithFrame:CGRectMake(heightTo4_7(15), 0, _vvv.width-heightTo4_7(30), _vvv.height)];
+            scrollingNoticeViewVVV.speed = 50.0;
+            [_vvv addSubview:scrollingNoticeViewVVV];
+            [scrollingNoticeViewVVV scrollWithMessages:@[mess]];
+            [self performSelector:@selector(removeVVV) withObject:nil afterDelay:16];
+        }
+    }];
+    
+    
+    
+
 }
 
 - (void)removeVVV {
@@ -398,11 +435,151 @@
 }
 
 - (void)onLoginButton {
-    [self pushLogin];
+    if ([Singleton shared].isLogin) {
+        [self showPersonInfo];
+    } else {
+        [self pushLogin];
+    }
+}
+
+/*展示个人信息*/
+- (void)showPersonInfo {
+    [self getCover];
+    UIImage *img = [UIImage imageNamed:@"login_bg"];
+    CGFloat wid = heightTo4_7(650);
+    CGFloat hig = img.size.height/img.size.width*wid;
+    UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, wid, hig)];
+    bg.userInteractionEnabled = YES;
+    [showCover addSubview:bg];
+    bg.center = CGPointMake(showCover.width/2, 0.45*showCover.height);
+    bg.image = img;
+    
+    CGFloat closesize = 0.09*bg.width;
+    UIButton *close = [[UIButton alloc] initWithFrame:CGRectMake(bg.width-closesize*0.6, -0.1*closesize, closesize, closesize)];
+    [close setBackgroundImage:[UIImage imageNamed:@"close"] forState:0];
+    [bg addSubview:close];
+    [close handleCallBack:^(UIButton *button) {
+        [showCover removeFromSuperview];
+        showCover = nil;
+    } forEvent:UIControlEventTouchUpInside];
+    
+    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(heightTo4_7(10), 0.156*bg.height, bg.width-heightTo4_7(20), 0.53*bg.height)];
+    content.backgroundColor = ColorHex(0x5d4192);
+    content.layer.borderColor = ColorHex(0x6724c3).CGColor;
+    content.layer.borderWidth = heightTo4_7(3.0);
+    content.layer.masksToBounds = YES;
+    content.layer.cornerRadius = heightTo4_7(12);
+    [bg addSubview:content];
+    
+    UIButton *headicon = [[UIButton alloc] initWithFrame:CGRectMake(heightTo4_7(18), heightTo4_7(18), heightTo4_7(88), heightTo4_7(88))];
+    headicon.layer.cornerRadius = 0.5*headicon.height;
+    headicon.layer.borderWidth = heightTo4_7(4.0);
+    headicon.layer.borderColor = ColorHex(0xa67f2a).CGColor;
+    headicon.layer.masksToBounds = YES;
+    headicon.backgroundColor = ColorHex(0xffffff);
+    [content addSubview:headicon];
+    
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(headicon.right+heightTo4_7(18), headicon.top, content.width-(headicon.right+heightTo4_7(36)),heightTo4_7(51))];
+    name.text = [@"   " stringByAppendingString:[Singleton shared].UserName];
+    name.textColor = ColorHex(0xffffff);
+    name.font = SystemFontBy4(13.6);
+    name.layer.cornerRadius = 0.5*name.height;
+    name.layer.masksToBounds = YES;
+    name.backgroundColor = ColorHex(0x48227e);
+    [content addSubview:name];
+    
+    UILabel *lasttime = [[UILabel alloc] initWithFrame:CGRectMake(name.left, name.bottom+heightTo4_7(12), name.width, heightTo4_7(42))];
+    lasttime.text = [@"   上次登录时间: " stringByAppendingString:[Singleton shared].lastLoginTime];
+    lasttime.textColor = ColorHex(0xffffff);
+    lasttime.font = SystemFontBy4(12);
+    lasttime.layer.cornerRadius = 0.5*lasttime.height;
+    lasttime.layer.masksToBounds = YES;
+    lasttime.backgroundColor = ColorHex(0x48227e);
+    [content addSubview:lasttime];
+    
+    UILabel *suishen = [[UILabel alloc] initWithFrame:CGRectMake(name.left, lasttime.bottom+heightTo4_7(12), name.width, heightTo4_7(42))];
+    suishen.text = @"   随身福利: 0.00 ";
+    suishen.textColor = ColorHex(0xebd957);
+    suishen.font = SystemFontBy4(12);
+    suishen.layer.cornerRadius = 0.5*suishen.height;
+    suishen.layer.masksToBounds = YES;
+    suishen.backgroundColor = ColorHex(0x48227e);
+    [content addSubview:suishen];
+    
+    UILabel *cangku = [[UILabel alloc] initWithFrame:CGRectMake(name.left, suishen.bottom+heightTo4_7(12), name.width, heightTo4_7(42))];
+    cangku.text = @"   仓库福利: 0.00 ";
+    cangku.textColor = ColorHex(0xebd957);
+    cangku.font = SystemFontBy4(12);
+    cangku.layer.cornerRadius = 0.5*cangku.height;
+    cangku.layer.masksToBounds = YES;
+    cangku.backgroundColor = ColorHex(0x48227e);
+    [content addSubview:cangku];
+    
+    UIImage *qi = [UIImage imageNamed:@"button"];
+    CGFloat gap = heightTo4_7(36);
+    CGFloat width = (content.width-gap*3)/2;
+    UIButton *quit = [[UIButton alloc] initWithFrame:CGRectMake(gap, content.bottom+gap*0.74, width, qi.size.height/qi.size.width*width)];
+    [quit setBackgroundImage:qi forState:0];
+    [quit setTitle:@"退出" forState:0];
+    [quit setTitleColor:ColorHex(0xffffff) forState:0];
+    quit.titleLabel.font = SystemFontBy4(13.2);
+    [bg addSubview:quit];
+    [quit handleCallBack:^(UIButton *button) {
+        [showCover removeFromSuperview];
+        showCover = nil;
+    } forEvent:UIControlEventTouchUpInside];
+    
+    UIButton *shezhi = [[UIButton alloc] initWithFrame:CGRectMake(quit.right+gap, content.bottom+gap*0.74, width, qi.size.height/qi.size.width*width)];
+    [shezhi setBackgroundImage:qi forState:0];
+    [shezhi setTitle:@"设置" forState:0];
+    [shezhi setTitleColor:ColorHex(0xffffff) forState:0];
+    shezhi.titleLabel.font = SystemFontBy4(13.2);
+    [bg addSubview:shezhi];
+    [shezhi handleCallBack:^(UIButton *button) {
+        [showCover removeFromSuperview];
+        showCover = nil;
+    } forEvent:UIControlEventTouchUpInside];
+    
+    
+    
 }
 
 - (void)onRefresh {
+    [self requestBalance];
+}
+
+- (void)getCover {
+    if (showCover) {
+        [showCover removeFromSuperview];
+        showCover = nil;
+    }
+    showCover = [[UIButton alloc] initWithFrame:self.view.bounds];
+    showCover.backgroundColor = ColorHexWithAlpha(0x000000, 0.56);
+    [self.view addSubview:showCover];
+    [showCover addTarget:self action:@selector(onShowCover) forControlEvents:UIControlEventTouchUpInside];
+}
+
+//用户点击了覆盖层
+- (void)onShowCover {
     
+}
+
+- (void)requestBalance {
+    [NetworkBusiness balanceBlock:^(NSError *error, int code, id response) {
+        if (code == 200) {
+            if ([response integerForKey:@"status"] == 200) {
+                NSArray *data = [response objectForKey:@"data"];
+                if (data.count) {
+                    NSDictionary *dict = data[0];
+                    [Singleton shared].Money = [dict stringForKey:@"balance_hg"];
+                    [Singleton shared].ag_balance = [dict stringForKey:@"balance_ag"];
+                    moneyLabel.text = [Singleton shared].Money;
+                }
+            } else {
+                [Tools showText:[response stringForKey:@"describe"]];
+            }
+        }
+    }];
 }
 
 - (void)onExchange {
@@ -415,6 +592,12 @@
 
 - (void)onSound {
     soundButton.selected = !soundButton.selected;
+    [Singleton shared].userSetSoundOff = soundButton.selected;
+    if (soundButton.selected) {
+        [[Singleton shared] stopBackgourndSound];
+    } else {
+        [[Singleton shared] playBackgroundSound];
+    }
 }
 
 - (void)onQiandao {

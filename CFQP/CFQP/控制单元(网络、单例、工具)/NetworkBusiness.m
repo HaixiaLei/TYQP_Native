@@ -27,9 +27,7 @@
                            @"verifycode":verifycode,
                            };
     NSString *url = [HOST_P stringByAppendingString:Url_register];
-    [NetworkManager httpPostForUrl:url Params:para block:^(NSError *error, int code, id response) {
-        block(error,code,response);
-    }];
+    [NetworkManager httpPostForUrl:url Params:para block:block];
 }
 
 + (void)loginUsername:(NSString *)username passwd:(NSString *)passwd sign:(NSString *)sign Block:(Callback)block; {
@@ -38,9 +36,7 @@
                            @"sign":(sign?:@""),
                            };
     NSString *url = [HOST_P stringByAppendingString:Url_login];
-    [NetworkManager httpPostForUrl:url Params:para block:^(NSError *error, int code, id response) {
-        block(error,code,response);
-    }];
+    [NetworkManager httpPostForUrl:url Params:para block:block];
 }
 
 + (void)forget_pwd:(NSString *)username realname:(NSString *)realname withdraw_password:(NSString *)withdraw_password new_password:(NSString *)new_password Block:(Callback)block {
@@ -52,9 +48,21 @@
                            @"password_confirmation":new_password,
                            };
     NSString *url = [HOST_P stringByAppendingString:Url_forget_pwd];
-    [NetworkManager httpPostForUrl:url Params:para block:^(NSError *error, int code, id response) {
-        block(error,code,response);
-    }];
+    [NetworkManager httpPostForUrl:url Params:para block:block];
+}
+
++ (void)winningnewsBlock:(Callback)block {
+    long integer = arc4random()%100000000;
+    NSString *url = [NSString stringWithFormat:@"%@%@?0.%li%li",HOST_P,Url_winningnews,integer,integer];
+    [NetworkManager httpPostForUrl:url showHud:NO showError:NO checkNet:NO Params:nil isJson:YES block:block];
+}
+
++ (void)balanceBlock:(Callback)block {
+    long integer = arc4random()%100000000;
+    NSString *url = [NSString stringWithFormat:@"%@%@?0.%li%li",HOST_P,Url_ag_api,integer,integer];
+    NSDictionary *para = @{@"action":@"b",
+                           };
+    [NetworkManager httpPostForUrl:url showHud:YES showError:YES checkNet:YES Params:para isJson:YES block:block];
 }
 @end
 

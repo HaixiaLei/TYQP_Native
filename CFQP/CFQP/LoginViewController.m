@@ -143,9 +143,8 @@
     if (currentView == 1) {
         return;
     }
-    currentView = 1;
-    
     [self closeView];
+    currentView = 1;
     
     UIImage *zhuce = [UIImage imageNamed:@"zhuce_bg"];
     CGFloat width = heightTo4_7(560);
@@ -292,9 +291,8 @@
     if (currentView == 2) {
         return;
     }
-    currentView = 2;
-    
     [self closeView];
+    currentView = 2;
     
     UIImage *zhuce = [UIImage imageNamed:@"deng_bg"];
     CGFloat width = heightTo4_7(580);
@@ -398,7 +396,15 @@
     [zhanghaoView addSubview:jiaruyx];
     jiaruyx.center = CGPointMake(0.15*zhanghaoView.width, 0.76*zhanghaoView.height);
     
-    
+    //设置上次登录的账号密码
+    NSString *lastAccout = [Singleton shared].UserName;
+    if (lastAccout.length) {
+        NSString *lastPass = [[TouchID_FaceID shared] getPasswordForAccount:lastAccout];
+        if (lastPass.length) {
+            tf_denglu0.text = lastAccout;
+            tf_denglu1.text = lastPass;
+        }
+    }
 }
 
 - (void)onJizhu:(UIButton *)button {
@@ -415,9 +421,8 @@
     if (currentView == 3) {
         return;
     }
-    currentView = 3;
-    
     [self closeView];
+    currentView = 3;
     
     UIImage *zhuce = [UIImage imageNamed:@"findpass0"];
     CGFloat width = heightTo4_7(560);
@@ -543,6 +548,7 @@
     [mimazhaohuiView addSubview:confirm];
 }
 
+/*找回密码*/
 - (void)onMimaZhaohuiConfirm {
     if (!tfzh0.text.length) {
         [Tools showText:@"请输入账号"];
@@ -581,18 +587,20 @@
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
                 [Singleton shared].isShiwan = NO;
+                [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
                     [[TouchID_FaceID shared] setAccount:tfzh0.text withPassword:tfzh3.text];
                 } else {
                     [[TouchID_FaceID shared] setAccount:tfzh0.text withPassword:@""];
                 }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
-                [self onClose];
+                [self quit];
             }
         }
     }];
 }
 
+/*账号登录*/
 - (void)onZhangHaoConfirm {
     if (!tf_denglu0.text.length) {
         [Tools showText:@"请输入账号"];
@@ -610,13 +618,14 @@
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
                 [Singleton shared].isShiwan = NO;
+                [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
                     [[TouchID_FaceID shared] setAccount:tf_denglu0.text withPassword:tf_denglu1.text];
                 } else {
                     [[TouchID_FaceID shared] setAccount:tf_denglu0.text withPassword:@""];
                 }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
-                [self onClose];
+                [self quit];
             }
         }
     }];
@@ -634,6 +643,7 @@
     [Singleton shared].LoginTime = [dict stringForKey:@"LoginTime"];
 }
 
+/*注册*/
 - (void)onZhuceConfirm {
     NSLog(@"游客按钮");
     
@@ -675,18 +685,20 @@
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
                 [Singleton shared].isShiwan = NO;
+                [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
                     [[TouchID_FaceID shared] setAccount:tf_zhanghao.text withPassword:tf_mima.text];
                 } else {
                     [[TouchID_FaceID shared] setAccount:tf_zhanghao.text withPassword:@""];
                 }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
-                [self onClose];
+                [self quit];
             }
         }
     }];
 }
 
+/*游客登录*/
 - (void)onYouke {
     NSLog(@"游客按钮");
     [NetworkBusiness loginUsername:@"travelVIP" passwd:@"____" sign:@"posthasteTry" Block:^(NSError *error, int code, id response) {
@@ -696,8 +708,9 @@
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
                 [Singleton shared].isShiwan = YES;
+                [Singleton shared].isLogin = YES;
                 [self setValuesWithDict:[response objectForKey:@"data"]];
-                [self onClose];
+                [self quit];
             }
         }
     }];
@@ -710,6 +723,14 @@
 //    transition.type = @"kCATransitionReveal";
 //    transition.subtype = kCATransitionFromRight;
 //    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+    if (currentView > 0) {
+        [self closeView];
+    } else {
+        [self quit];
+    }
+}
+
+- (void)quit {
     [self.navigationController popViewControllerAnimated:NO];
 }
 @end

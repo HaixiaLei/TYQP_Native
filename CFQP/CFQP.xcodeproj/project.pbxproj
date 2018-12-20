@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0FBE269E83CFD0348E371C92 /* libPods-CFQP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B342E7ABBED5CB616673C7 /* libPods-CFQP.a */; };
 		6336B63D21C8D04200D8A99A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6336B63C21C8D04200D8A99A /* LoginViewController.m */; };
+		637F2C0521CB293F00EA5EF9 /* bgsound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 637F2C0321CB293F00EA5EF9 /* bgsound1.mp3 */; };
+		637F2C0621CB293F00EA5EF9 /* bgsound0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 637F2C0421CB293F00EA5EF9 /* bgsound0.mp3 */; };
 		6382D68121C4C50E008BAA58 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D68021C4C50E008BAA58 /* AppDelegate.m */; };
 		6382D68421C4C50E008BAA58 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D68321C4C50E008BAA58 /* ViewController.m */; };
 		6382D68721C4C50E008BAA58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6382D68521C4C50E008BAA58 /* Main.storyboard */; };
@@ -61,6 +63,8 @@
 		034276518FAA7E7257609A4F /* Pods-CFQP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CFQP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CFQP/Pods-CFQP.debug.xcconfig"; sourceTree = "<group>"; };
 		6336B63B21C8D04200D8A99A /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		6336B63C21C8D04200D8A99A /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		637F2C0321CB293F00EA5EF9 /* bgsound1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgsound1.mp3; sourceTree = "<group>"; };
+		637F2C0421CB293F00EA5EF9 /* bgsound0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgsound0.mp3; sourceTree = "<group>"; };
 		6382D67C21C4C50E008BAA58 /* CFQP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CFQP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6382D67F21C4C50E008BAA58 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6382D68021C4C50E008BAA58 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -172,6 +176,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		637F2C0221CB28B700EA5EF9 /* 本地资源 */ = {
+			isa = PBXGroup;
+			children = (
+				637F2C0321CB293F00EA5EF9 /* bgsound1.mp3 */,
+				637F2C0421CB293F00EA5EF9 /* bgsound0.mp3 */,
+			);
+			path = "本地资源";
+			sourceTree = "<group>";
+		};
 		6382D67321C4C50E008BAA58 = {
 			isa = PBXGroup;
 			children = (
@@ -197,7 +210,7 @@
 				6382D6F921C4D0EF008BAA58 /* 第三方控件 */,
 				6382D6EC21C4D0AF008BAA58 /* 控制单元(网络、单例、工具) */,
 				6382D69E21C4CD89008BAA58 /* 类别 */,
-				6382D69A21C4CBE4008BAA58 /* Basic */,
+				6382D69A21C4CBE4008BAA58 /* 基础依赖 */,
 				6382D67F21C4C50E008BAA58 /* AppDelegate.h */,
 				6382D68021C4C50E008BAA58 /* AppDelegate.m */,
 				6382D68221C4C50E008BAA58 /* ViewController.h */,
@@ -212,7 +225,7 @@
 			path = CFQP;
 			sourceTree = "<group>";
 		};
-		6382D69A21C4CBE4008BAA58 /* Basic */ = {
+		6382D69A21C4CBE4008BAA58 /* 基础依赖 */ = {
 			isa = PBXGroup;
 			children = (
 				63C6E04021C646740006DE2D /* BasicView.h */,
@@ -222,7 +235,7 @@
 				6382D69B21C4CC0B008BAA58 /* BasicViewController.h */,
 				6382D69C21C4CC0B008BAA58 /* BasicViewController.m */,
 			);
-			path = Basic;
+			path = "基础依赖";
 			sourceTree = "<group>";
 		};
 		6382D69E21C4CD89008BAA58 /* 类别 */ = {
@@ -296,6 +309,7 @@
 		6382D6E321C4CDBC008BAA58 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				637F2C0221CB28B700EA5EF9 /* 本地资源 */,
 				6382D6E521C4CE0F008BAA58 /* Defines */,
 				6382D68521C4C50E008BAA58 /* Main.storyboard */,
 				6382D68821C4C50F008BAA58 /* Assets.xcassets */,
@@ -478,6 +492,8 @@
 				6382D68921C4C50F008BAA58 /* Assets.xcassets in Resources */,
 				6382D70F21C4D0EF008BAA58 /* WSDatePickerView.xib in Resources */,
 				6382D68721C4C50E008BAA58 /* Main.storyboard in Resources */,
+				637F2C0521CB293F00EA5EF9 /* bgsound1.mp3 in Resources */,
+				637F2C0621CB293F00EA5EF9 /* bgsound0.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

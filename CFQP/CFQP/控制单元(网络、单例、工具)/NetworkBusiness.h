@@ -27,6 +27,8 @@
 #define Url_register                         @"api/register.php"
 #define Url_login                            @"api/login.php"
 #define Url_forget_pwd                       @"api/forget_pwd.php"
+#define Url_winningnews                      @"member/winningnews.php"//赢钱信息
+#define Url_ag_api                           @"api/ag/ag_api.php"
 
 @interface NetworkBusiness : NSObject
 
@@ -34,6 +36,8 @@
 + (void)registerReference:(NSString *)reference username:(NSString *)username password:(NSString *)password verifycode:(NSString *)verifycode Block:(Callback)block;
 + (void)loginUsername:(NSString *)username passwd:(NSString *)passwd sign:(NSString *)sign Block:(Callback)block;
 + (void)forget_pwd:(NSString *)username realname:(NSString *)realname withdraw_password:(NSString *)withdraw_password new_password:(NSString *)new_password Block:(Callback)block;
++ (void)winningnewsBlock:(Callback)block;
++ (void)balanceBlock:(Callback)block;
 
 @end
 

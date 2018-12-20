@@ -13,6 +13,7 @@
 #define Noti_Application_Did_Become_Active    @"Noti_Application_Did_Become_Active"
 #define Noti_Timer_1second                    @"Noti_Timer_1second"
 #define Noti_Network_state_changed            @"Noti_Network_state_changed"
+//#define Noti_SuccessLogin                     @"Noti_SuccessLogin" //成功登录
 //#define Noti_Success_Register                 @"Noti_Success_Register"
 //#define Noti_Status_Update                    @"Noti_Status_Update"
 //#define Noti_Got_DepositeList                 @"Noti_Got_DepositeList"
@@ -21,7 +22,6 @@
 //#define Noti_TapOnStatusBar                   @"Noti_TapOnStatusBar"
 //#define Noti_JumpGame                         @"Noti_JumpGame"  //跳转  真人荷官1  老虎机5  彩票2 皇冠棋牌3 开元棋牌4
 //#define Noti_ReLogin                          @"Noti_ReLogin"  //重新登录
-//#define Noti_SuccessLogin                     @"Noti_SuccessLogin" //成功登录
 //#define Noti_GoToRecord                       @"Noti_GoToRecord" //前往交易记录
 //#define Noti_SuccessSetInfo                   @"Noti_SuccessSetInfo" //提款信息设置成功
 //

@@ -37,7 +37,32 @@ AppDelegate *mainDelegate;
 
 }
 
+#pragma mark -- 背景音乐播放
+- (void)playBackgroundSound {
+    _currentSoundIndex = (_currentSoundIndex==0?1:0);
+    NSString *sound = [NSString stringWithFormat:@"bgsound%li.mp3",_currentSoundIndex];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:sound withExtension:nil];
+    _backgroundSoundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:NULL];
+    [_backgroundSoundPlayer prepareToPlay];
+    [_backgroundSoundPlayer play];
+}
+- (void)stopBackgourndSound {
+    [_backgroundSoundPlayer stop];
+}
 
+/*Getter & Setter 方法*/
+- (void)setUserName:(NSString *)UserName {
+    [[NSUserDefaults standardUserDefaults] setObject:UserName forKey:@"LastAccount"];
+}
+- (NSString *)UserName {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"LastAccount"];
+}
+- (void)setUserSetSoundOff:(BOOL)userSetSoundOff {
+    [[NSUserDefaults standardUserDefaults] setBool:userSetSoundOff forKey:@"userSetSoundOff"];
+}
+- (BOOL)userSetSoundOff {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"userSetSoundOff"];
+}
 
 #pragma mark -- 创建一个计时器,每1秒执行一次
 - (void)setupTimerFor1Second {

@@ -63,5 +63,8 @@ void runBlockAfter(CGFloat time, dispatch_block_t block);
 + (NSString *)timeStramp;
 + (NSString *)timeStringForSeconds:(long)seconds;
 
++ (void)popView:(UIView *)popview inView:(UIView *)inview;
++ (void)animateRemoveView:(UIView *)rview frame:(CGRect)frame after:(BOOL)after;
+
 extern long long C(int m,int n);
 @end

@@ -55,7 +55,6 @@
             NSDictionary *allHeaders = response.allHeaderFields;
             NSLog(@"POST返回头====>%@",allHeaders);
         }
-
         
         //获取cookie
         if (![Singleton shared].cookie || ![Singleton shared].cookie.length) {

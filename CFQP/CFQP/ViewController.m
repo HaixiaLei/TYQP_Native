@@ -49,12 +49,15 @@
     UIImageView *foot;
     ScrollingNoticeView *scrollingNoticeViewVVV;//偶然弹出的xxx获得100万
     NSInteger countdownVVV;
-    
-    UIButton *showCover;//弹出小窗口时的底部覆盖
 }
 
 //判断和选择最佳域名
 - (void)getYuming {
+    if (Environment != 1) { //不是线上环境不管
+        [self requests];
+        return;
+    }
+    
     NSString *host = HOST_P;
     if (!host || !host.length) {
         [[NSUserDefaults standardUserDefaults] setObject:DEFAULT_URL forKey:@"host"];
@@ -103,9 +106,10 @@
                 if ((requestCount == list.count) && !isReach) {
                     NSLog(@"====>域名列表一个都不通");
                     dispatch_async(dispatch_get_main_queue(),^{
-                        [Tools showText:@"网络缓慢，请切换网络或联系客服"];
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        [self requests];
+                        [Tools alertWithTitle:@"网络缓慢，请切换网络或联系客服" message:nil handle:^(UIAlertAction *action) {
+                            [self getYuming];
+                        } cancel:nil confirm:@"重试"];
                     });
                 }
             });
@@ -222,10 +226,10 @@
     [topImageView addSubview:refresh];
     [refresh addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventTouchUpInside];
     
-    exchangeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.53*topImageView.width, (ScreenX?(0.13):(0.18))*topImageView.height, 0.1177*topImageView.width, (ScreenX?(0.68):(0.64))*topImageView.height)];
-    [topImageView addSubview:exchangeButton];
-    [exchangeButton setBackgroundImage:[UIImage imageNamed:@"home_exchange"] forState:0];
-    [exchangeButton addTarget:self action:@selector(onExchange) forControlEvents:UIControlEventTouchUpInside];
+//    exchangeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.53*topImageView.width, (ScreenX?(0.13):(0.18))*topImageView.height, 0.1177*topImageView.width, (ScreenX?(0.68):(0.64))*topImageView.height)];
+//    [topImageView addSubview:exchangeButton];
+//    [exchangeButton setBackgroundImage:[UIImage imageNamed:@"home_exchange"] forState:0];
+//    [exchangeButton addTarget:self action:@selector(onExchange) forControlEvents:UIControlEventTouchUpInside];
     
     soundButton = [[UIButton alloc] initWithFrame:CGRectMake(0.708*topImageView.width, 0.05*topImageView.height, heightTo4_7(50), heightTo4_7(56.25))];
     [soundButton setBackgroundImage:[UIImage imageNamed:@"home_sound1"] forState:0];
@@ -396,6 +400,168 @@
 
 - (void)onFootButton:(UIButton *)button {
     NSLog(@"on foot button: %li",button.tag);
+    if (![Singleton shared].isLogin) {
+        [self pushLogin];
+        return;
+    }
+    
+    if (button.tag == 1) {//玩家中心
+        UIButton *bg = [[UIButton alloc] initWithFrame:self.view.bounds];
+        bg.backgroundColor = ColorHexWithAlpha(0x000000, 0.6);
+        [self.view addSubview:bg];
+        
+        UIImageView *vvv = [[UIImageView alloc] initWithFrame:CGRectMake(bg.width, 0, heightTo4_7(280), bg.height)];
+        vvv.image = [UIImage imageNamed:@"opti0nbg"];
+        [bg addSubview:vvv];
+        vvv.userInteractionEnabled = YES;
+        
+        UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, vvv.width, 0.24*vvv.height)];
+        name.text = [Singleton shared].isShiwan?@"试玩玩家":[Singleton shared].UserName;
+        name.textAlignment = NSTextAlignmentCenter;
+        name.textColor = ColorHex(0xffffff);
+        name.font = BoldSystemFontBy4(14.0);
+        [vvv addSubview:name];
+        
+        UILabel *huanying = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, vvv.width, 0.4*vvv.height)];
+        huanying.text = @"欢迎光临!";
+        huanying.textAlignment = NSTextAlignmentCenter;
+        huanying.textColor = ColorHex(0xffffff);
+        huanying.font = BoldSystemFontBy4(14.0);
+        [vvv addSubview:huanying];
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.135*vvv.width, 0.30*vvv.height, vvv.width*0.737, heightTo4_7(4.8))];
+        line.backgroundColor = ColorHexWithAlpha(0xf6cf5f, 0.5);
+        [vvv addSubview:line];
+        
+        UIImage *image = [UIImage imageNamed:@"button1"];
+        CGFloat w = vvv.width*0.8;
+        CGFloat h = image.size.height/image.size.width*w;
+        CGFloat t = vvv.height*0.38;
+        CGFloat gap = 0.05*vvv.height;
+        CGFloat left = (vvv.width-w)/2;
+        UIButton *yinhang = [[UIButton alloc] initWithFrame:CGRectMake(left, t, w, h)];
+        [yinhang setBackgroundImage:image forState:0];
+        [yinhang setTitle:@"银行" forState:0];
+        [yinhang setTitleColor:ColorHex(0xffffff) forState:0];
+        yinhang.titleLabel.font = BoldSystemFontBy4(12.4);
+        [vvv addSubview:yinhang];
+        [yinhang handleCallBack:^(UIButton *button) {
+            [self onPlayerCenterBank];
+            [UIView animateWithDuration:0.16 animations:^{
+                vvv.left = bg.right;
+            } completion:^(BOOL finished) {
+                [vvv removeFromSuperview];
+                [bg removeFromSuperview];
+            }];
+        } forEvent:UIControlEventTouchUpInside];
+        t = yinhang.bottom+gap;
+        
+        UIButton *anquan = [[UIButton alloc] initWithFrame:CGRectMake(left, t, w, h)];
+        [anquan setBackgroundImage:image forState:0];
+        [anquan setTitle:@"安全中心" forState:0];
+        [anquan setTitleColor:ColorHex(0xffffff) forState:0];
+        anquan.titleLabel.font = BoldSystemFontBy4(12.4);
+        [vvv addSubview:anquan];
+        [anquan handleCallBack:^(UIButton *button) {
+            [self onPlayerCenterSecurity];
+            [UIView animateWithDuration:0.16 animations:^{
+                vvv.left = bg.right;
+            } completion:^(BOOL finished) {
+                [vvv removeFromSuperview];
+                [bg removeFromSuperview];
+            }];
+        } forEvent:UIControlEventTouchUpInside];
+        t = anquan.bottom+gap;
+        
+        UIButton *wode = [[UIButton alloc] initWithFrame:CGRectMake(left, t, w, h)];
+        [wode setBackgroundImage:image forState:0];
+        [wode setTitle:@"我的账变" forState:0];
+        [wode setTitleColor:ColorHex(0xffffff) forState:0];
+        wode.titleLabel.font = BoldSystemFontBy4(12.4);
+        [vvv addSubview:wode];
+        [wode handleCallBack:^(UIButton *button) {
+            [self onPlayerCenterZhangbian];
+            [UIView animateWithDuration:0.16 animations:^{
+                vvv.left = bg.right;
+            } completion:^(BOOL finished) {
+                [vvv removeFromSuperview];
+                [bg removeFromSuperview];
+            }];
+        } forEvent:UIControlEventTouchUpInside];
+        t = wode.bottom+gap;
+        
+        UIButton *lianxi = [[UIButton alloc] initWithFrame:CGRectMake(left, t, w, h)];
+        [lianxi setBackgroundImage:image forState:0];
+        [lianxi setTitle:@"联系客服" forState:0];
+        [lianxi setTitleColor:ColorHex(0xffffff) forState:0];
+        lianxi.titleLabel.font = BoldSystemFontBy4(12.4);
+        [vvv addSubview:lianxi];
+        [lianxi handleCallBack:^(UIButton *button) {
+            [self onPlayerCenterKefu];
+            [UIView animateWithDuration:0.16 animations:^{
+                vvv.left = bg.right;
+            } completion:^(BOOL finished) {
+                [vvv removeFromSuperview];
+                [bg removeFromSuperview];
+            }];
+        } forEvent:UIControlEventTouchUpInside];
+        t = lianxi.bottom+gap;
+        
+        yinhang.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*yinhang.height, 0);
+        anquan.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*anquan.height, 0);
+        wode.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*wode.height, 0);
+        lianxi.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*lianxi.height, 0);
+        [UIView animateWithDuration:0.16 animations:^{
+            vvv.right = bg.right;
+        }];
+        
+        [bg handleCallBack:^(UIButton *button) {
+            [UIView animateWithDuration:0.16 animations:^{
+                vvv.left = bg.right;
+            } completion:^(BOOL finished) {
+                [vvv removeFromSuperview];
+                [bg removeFromSuperview];
+            }];
+        } forEvent:UIControlEventTouchUpInside];
+    }
+    
+    
+    
+    
+    
+}
+
+#pragma mark
+- (void)onPlayerCenterBank {
+    UIImage *img = [UIImage imageNamed:@"login_bg"];
+    CGFloat wid = heightTo4_7(650);
+    CGFloat hig = img.size.height/img.size.width*wid;
+    UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, wid, hig)];
+    bg.userInteractionEnabled = YES;
+    bg.center = CGPointMake(self.view.width/2, 0.45*self.view.height);
+    bg.image = img;
+    
+    CGFloat closesize = 0.09*bg.width;
+    UIButton *close = [[UIButton alloc] initWithFrame:CGRectMake(bg.width-closesize*0.6, -0.1*closesize, closesize, closesize)];
+    [close setBackgroundImage:[UIImage imageNamed:@"close"] forState:0];
+    [bg addSubview:close];
+    [close handleCallBack:^(UIButton *button) {
+        [bg.superview removeFromSuperview];
+    } forEvent:UIControlEventTouchUpInside];
+    
+    
+    
+    
+    [Tools popView:bg inView:self.view];
+}
+- (void)onPlayerCenterSecurity {
+    
+}
+- (void)onPlayerCenterZhangbian {
+    
+}
+- (void)onPlayerCenterKefu {
+    
 }
 
 - (void)updateGonggao {
@@ -444,14 +610,12 @@
 
 /*展示个人信息*/
 - (void)showPersonInfo {
-    [self getCover];
     UIImage *img = [UIImage imageNamed:@"login_bg"];
     CGFloat wid = heightTo4_7(650);
     CGFloat hig = img.size.height/img.size.width*wid;
     UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, wid, hig)];
     bg.userInteractionEnabled = YES;
-    [showCover addSubview:bg];
-    bg.center = CGPointMake(showCover.width/2, 0.45*showCover.height);
+    bg.center = CGPointMake(self.view.width/2, 0.45*self.view.height);
     bg.image = img;
     
     CGFloat closesize = 0.09*bg.width;
@@ -459,11 +623,10 @@
     [close setBackgroundImage:[UIImage imageNamed:@"close"] forState:0];
     [bg addSubview:close];
     [close handleCallBack:^(UIButton *button) {
-        [showCover removeFromSuperview];
-        showCover = nil;
+        [bg.superview removeFromSuperview];
     } forEvent:UIControlEventTouchUpInside];
     
-    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(heightTo4_7(10), 0.156*bg.height, bg.width-heightTo4_7(20), 0.53*bg.height)];
+    UIView *content = [[UIView alloc] initWithFrame:CGRectMake(heightTo4_7(16), 0.16*bg.height, bg.width-heightTo4_7(32), 0.56*bg.height)];
     content.backgroundColor = ColorHex(0x5d4192);
     content.layer.borderColor = ColorHex(0x6724c3).CGColor;
     content.layer.borderWidth = heightTo4_7(3.0);
@@ -471,7 +634,7 @@
     content.layer.cornerRadius = heightTo4_7(12);
     [bg addSubview:content];
     
-    UIButton *headicon = [[UIButton alloc] initWithFrame:CGRectMake(heightTo4_7(18), heightTo4_7(18), heightTo4_7(88), heightTo4_7(88))];
+    UIButton *headicon = [[UIButton alloc] initWithFrame:CGRectMake(heightTo4_7(18), heightTo4_7(22), heightTo4_7(88), heightTo4_7(88))];
     headicon.layer.cornerRadius = 0.5*headicon.height;
     headicon.layer.borderWidth = heightTo4_7(4.0);
     headicon.layer.borderColor = ColorHex(0xa67f2a).CGColor;
@@ -479,7 +642,7 @@
     headicon.backgroundColor = ColorHex(0xffffff);
     [content addSubview:headicon];
     
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(headicon.right+heightTo4_7(18), headicon.top, content.width-(headicon.right+heightTo4_7(36)),heightTo4_7(51))];
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(headicon.right+heightTo4_7(22), headicon.top, content.width-(headicon.right+heightTo4_7(36)),heightTo4_7(51))];
     name.text = [@"   " stringByAppendingString:[Singleton shared].UserName];
     name.textColor = ColorHex(0xffffff);
     name.font = SystemFontBy4(13.6);
@@ -516,53 +679,44 @@
     [content addSubview:cangku];
     
     UIImage *qi = [UIImage imageNamed:@"button"];
-    CGFloat gap = heightTo4_7(36);
-    CGFloat width = (content.width-gap*3)/2;
-    UIButton *quit = [[UIButton alloc] initWithFrame:CGRectMake(gap, content.bottom+gap*0.74, width, qi.size.height/qi.size.width*width)];
+    CGFloat gap = heightTo4_7(42);
+    CGFloat width = (bg.width-gap*3)/2;
+    UIButton *quit = [[UIButton alloc] initWithFrame:CGRectMake(gap, content.bottom+gap*0.76, width, qi.size.height/qi.size.width*width)];
+    quit.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*quit.height, 0);
     [quit setBackgroundImage:qi forState:0];
     [quit setTitle:@"退出" forState:0];
     [quit setTitleColor:ColorHex(0xffffff) forState:0];
-    quit.titleLabel.font = SystemFontBy4(13.2);
+    quit.titleLabel.font = SystemFontBy4(13.6);
     [bg addSubview:quit];
     [quit handleCallBack:^(UIButton *button) {
-        [showCover removeFromSuperview];
-        showCover = nil;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        runBlockAfter(0.3, ^{
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [bg.superview removeFromSuperview];
+            [Singleton shared].isLogin = NO;
+            [self updateInfo];
+            [Tools showText:@"退出成功"];
+        });
     } forEvent:UIControlEventTouchUpInside];
     
     UIButton *shezhi = [[UIButton alloc] initWithFrame:CGRectMake(quit.right+gap, content.bottom+gap*0.74, width, qi.size.height/qi.size.width*width)];
+    shezhi.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0.1*shezhi.height, 0);
     [shezhi setBackgroundImage:qi forState:0];
     [shezhi setTitle:@"设置" forState:0];
     [shezhi setTitleColor:ColorHex(0xffffff) forState:0];
-    shezhi.titleLabel.font = SystemFontBy4(13.2);
+    shezhi.titleLabel.font = SystemFontBy4(13.6);
     [bg addSubview:shezhi];
     [shezhi handleCallBack:^(UIButton *button) {
-        [showCover removeFromSuperview];
-        showCover = nil;
+        [bg.superview removeFromSuperview];
     } forEvent:UIControlEventTouchUpInside];
     
-    
-    
+    [Tools popView:bg inView:self.view];
 }
 
 - (void)onRefresh {
     [self requestBalance];
 }
 
-- (void)getCover {
-    if (showCover) {
-        [showCover removeFromSuperview];
-        showCover = nil;
-    }
-    showCover = [[UIButton alloc] initWithFrame:self.view.bounds];
-    showCover.backgroundColor = ColorHexWithAlpha(0x000000, 0.56);
-    [self.view addSubview:showCover];
-    [showCover addTarget:self action:@selector(onShowCover) forControlEvents:UIControlEventTouchUpInside];
-}
-
-//用户点击了覆盖层
-- (void)onShowCover {
-    
-}
 
 - (void)requestBalance {
     [NetworkBusiness balanceBlock:^(NSError *error, int code, id response) {

@@ -350,8 +350,37 @@ long long C(int m,int n)    //计算C下m上n
     return [NSString stringWithFormat:@"%@:%@",minStr,secStr];
 }
 
++ (void)popView:(UIView *)popview inView:(UIView *)inview {
+    UIView *cover = [[UIView alloc] initWithFrame:inview.bounds];
+    [inview addSubview:cover];
+    cover.backgroundColor = ColorHexWithAlpha(0x000000, 0.24);
+    [cover addSubview:popview];
+    popview.center = cover.center;
+    
+    popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.4, 0.4);
+    [UIView animateWithDuration:0.18 animations:^{
+        popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.1 animations:^{
+            popview.transform = CGAffineTransformIdentity;
+        }];
+    }];
+}
 
-
++ (void)animateRemoveView:(UIView *)rview frame:(CGRect)frame after:(BOOL)after {
+    UIView *view = [rview snapshotViewAfterScreenUpdates:after];
+    UIView *bg = [UIApplication sharedApplication].keyWindow;
+    view.frame = frame;
+    [bg addSubview:view];
+    [UIView animateWithDuration:0.7 animations:^{
+        view.frame = CGRectMake(view.left-0.4*view.width, view.top-0.4*view.height, view.width*1.8, view.height*1.8);
+        view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [view removeFromSuperview];
+    }];
+    
+    
+}
 @end
 
 

@@ -52,7 +52,7 @@
 		6382D71121C4D0EF008BAA58 /* UIImage+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70621C4D0EF008BAA58 /* UIImage+FlatUI.m */; };
 		6382D71221C4D0EF008BAA58 /* FUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70A21C4D0EF008BAA58 /* FUIButton.m */; };
 		6382D71321C4D0EF008BAA58 /* UIColor+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70B21C4D0EF008BAA58 /* UIColor+FlatUI.m */; };
-		63A139E121C77F53008799E6 /* ScrollingNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A139E021C77F53008799E6 /* ScrollingNoticeView.m */; };
+		638F5C2421CF6DD30000D66E /* ScrollingNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 638F5C2321CF6DD30000D66E /* ScrollingNoticeView.m */; };
 		63AD796F21CA456900414BCF /* TouchID_FaceID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AD796D21CA456800414BCF /* TouchID_FaceID.m */; };
 		63C6E03921C625370006DE2D /* InfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03721C625360006DE2D /* InfiniteScrollView.m */; };
 		63C6E03C21C625830006DE2D /* BasicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03A21C625830006DE2D /* BasicScrollView.m */; };
@@ -150,8 +150,8 @@
 		6382D70921C4D0EF008BAA58 /* UIImage+FlatUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FlatUI.h"; sourceTree = "<group>"; };
 		6382D70A21C4D0EF008BAA58 /* FUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUIButton.m; sourceTree = "<group>"; };
 		6382D70B21C4D0EF008BAA58 /* UIColor+FlatUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatUI.m"; sourceTree = "<group>"; };
-		63A139DF21C77F53008799E6 /* ScrollingNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollingNoticeView.h; path = "../../../../HGTY_Native/DemonProject/DemonProject/自定义视图/ScrollingNoticeView.h"; sourceTree = "<group>"; };
-		63A139E021C77F53008799E6 /* ScrollingNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollingNoticeView.m; path = "../../../../HGTY_Native/DemonProject/DemonProject/自定义视图/ScrollingNoticeView.m"; sourceTree = "<group>"; };
+		638F5C2221CF6DD30000D66E /* ScrollingNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollingNoticeView.h; sourceTree = "<group>"; };
+		638F5C2321CF6DD30000D66E /* ScrollingNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollingNoticeView.m; sourceTree = "<group>"; };
 		63AD796D21CA456800414BCF /* TouchID_FaceID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchID_FaceID.m; sourceTree = "<group>"; };
 		63AD796E21CA456800414BCF /* TouchID_FaceID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchID_FaceID.h; sourceTree = "<group>"; };
 		63C6E03721C625360006DE2D /* InfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfiniteScrollView.m; sourceTree = "<group>"; };
@@ -402,8 +402,8 @@
 		63C6E03621C6252A0006DE2D /* 自定义视图 */ = {
 			isa = PBXGroup;
 			children = (
-				63A139DF21C77F53008799E6 /* ScrollingNoticeView.h */,
-				63A139E021C77F53008799E6 /* ScrollingNoticeView.m */,
+				638F5C2221CF6DD30000D66E /* ScrollingNoticeView.h */,
+				638F5C2321CF6DD30000D66E /* ScrollingNoticeView.m */,
 				63C6E03B21C625830006DE2D /* BasicScrollView.h */,
 				63C6E03A21C625830006DE2D /* BasicScrollView.m */,
 				63C6E03821C625370006DE2D /* InfiniteScrollView.h */,
@@ -558,11 +558,11 @@
 				6382D6CB21C4CD8A008BAA58 /* NSMutableAttributedString+Additional.m in Sources */,
 				6382D6D821C4CD8A008BAA58 /* NSString+Additional.m in Sources */,
 				6382D6D021C4CD8A008BAA58 /* UIImage+Additional.m in Sources */,
+				638F5C2421CF6DD30000D66E /* ScrollingNoticeView.m in Sources */,
 				6382D6E121C4CD9F008BAA58 /* NSDictionary+HYBUnicodeReadable.m in Sources */,
 				6382D6F721C4D0AF008BAA58 /* Singleton.m in Sources */,
 				6382D6C621C4CD8A008BAA58 /* NSString+Hash.m in Sources */,
 				63AD796F21CA456900414BCF /* TouchID_FaceID.m in Sources */,
-				63A139E121C77F53008799E6 /* ScrollingNoticeView.m in Sources */,
 				6382D68421C4C50E008BAA58 /* ViewController.m in Sources */,
 				6382D71221C4D0EF008BAA58 /* FUIButton.m in Sources */,
 				6382D6D621C4CD8A008BAA58 /* NSSet+HYBUnicodeReadable.m in Sources */,

@@ -34,19 +34,35 @@
     UIImageView *checkbox;
     
     UIButton *buttonYanzhengma;
-    
+    UIImageView *girlv;
     
     UITextField *tfzh0;
     UITextField *tfzh1;
     UITextField *tfzh2;
     UITextField *tfzh3;
     UITextField *tfzh4;
+    
+    CGRect girlRect;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupBackground];
     [self setupButtons];
+    [self ImageSpring];
+}
+
+
+- (void)ImageSpring {
+//    [UIView animateWithDuration:1.8 animations:^{
+//        girlv.frame = CGRectMake(girlRect.origin.x+heightTo4_7(13), girlRect.origin.y+heightTo4_7(30), girlRect.size.width-heightTo4_7(30), girlRect.size.height-heightTo4_7(30));
+//    }];
+//    
+//    [UIView animateWithDuration:3.6 delay:1.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//        girlv.frame = CGRectMake(girlRect.origin.x-heightTo4_7(13), girlRect.origin.y-heightTo4_7(30), girlRect.size.width+heightTo4_7(30), girlRect.size.height+heightTo4_7(30));
+//    } completion:^(BOOL finished) {
+//        [self ImageSpring];
+//    }];
 }
 
 - (void)setupBackground {
@@ -66,10 +82,11 @@
     UIImage *girl = [UIImage imageNamed:@"log_girl"];
     CGFloat girlw = heightTo4_7(800);
     CGFloat girlh = girl.size.height/girl.size.width*girlw;
-    UIImageView *girlv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, girlw, girlh)];
+    girlv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, girlw, girlh)];
     girlv.image = girl;
     [self.view addSubview:girlv];
     girlv.center = self.view.center;
+    girlRect = girlv.frame;
 }
 
 - (void)setupButtons {
@@ -185,6 +202,7 @@
     [IQview addSubview:image0];
     tf_tuijian = [[UITextField alloc] initWithFrame:CGRectMake(heightTo4_7(10), 0, image0.width-heightTo4_7(15), image0.height)];
     tf_tuijian.placeholder = @"选填";
+    tf_tuijian.autocapitalizationType = UITextAutocapitalizationTypeNone;
     tf_tuijian.textColor = ColorHex(0xffffff);
     tf_tuijian.font = font;
     tf_tuijian.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -202,6 +220,7 @@
     [IQview addSubview:image1];
     tf_zhanghao = [[UITextField alloc] initWithFrame:CGRectMake(heightTo4_7(10), 0, image1.width-heightTo4_7(15), image1.height)];
     tf_zhanghao.placeholder = @"输入账号";
+    tf_zhanghao.autocapitalizationType = UITextAutocapitalizationTypeNone;
     tf_zhanghao.textColor = ColorHex(0xffffff);
     tf_zhanghao.font = font;
     tf_zhanghao.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -732,5 +751,6 @@
 
 - (void)quit {
     [self.navigationController popViewControllerAnimated:NO];
+    [Tools animateRemoveView:girlv frame:girlv.frame after:NO];
 }
 @end

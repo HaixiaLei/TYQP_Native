@@ -39,15 +39,19 @@ AppDelegate *mainDelegate;
 
 #pragma mark -- 背景音乐播放
 - (void)playBackgroundSound {
-    _currentSoundIndex = (_currentSoundIndex==0?1:0);
     NSString *sound = [NSString stringWithFormat:@"bgsound%li.mp3",_currentSoundIndex];
     NSURL *url = [[NSBundle mainBundle] URLForResource:sound withExtension:nil];
     _backgroundSoundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:NULL];
+    _backgroundSoundPlayer.delegate = self;
     [_backgroundSoundPlayer prepareToPlay];
     [_backgroundSoundPlayer play];
 }
 - (void)stopBackgourndSound {
     [_backgroundSoundPlayer stop];
+}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSLog(@"播放结束");
+    [self playBackgroundSound];
 }
 
 /*Getter & Setter 方法*/

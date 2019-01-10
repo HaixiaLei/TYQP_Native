@@ -43,6 +43,7 @@
     UITextField *tfzh4;
     
     CGRect girlRect;
+    BOOL quited;
 }
 
 - (void)viewDidLoad {
@@ -54,15 +55,19 @@
 
 
 - (void)ImageSpring {
-//    [UIView animateWithDuration:1.8 animations:^{
-//        girlv.frame = CGRectMake(girlRect.origin.x+heightTo4_7(13), girlRect.origin.y+heightTo4_7(30), girlRect.size.width-heightTo4_7(30), girlRect.size.height-heightTo4_7(30));
-//    }];
-//    
-//    [UIView animateWithDuration:3.6 delay:1.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        girlv.frame = CGRectMake(girlRect.origin.x-heightTo4_7(13), girlRect.origin.y-heightTo4_7(30), girlRect.size.width+heightTo4_7(30), girlRect.size.height+heightTo4_7(30));
-//    } completion:^(BOOL finished) {
-//        [self ImageSpring];
-//    }];
+    [UIView animateWithDuration:3.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        girlv.frame = CGRectMake(girlRect.origin.x+heightTo4_7(13), girlRect.origin.y+heightTo4_7(20), girlRect.size.width-heightTo4_7(20), girlRect.size.height-heightTo4_7(20));
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    [UIView animateWithDuration:3.6 delay:1.8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        girlv.frame = CGRectMake(girlRect.origin.x-heightTo4_7(13), girlRect.origin.y-heightTo4_7(20), girlRect.size.width+heightTo4_7(20), girlRect.size.height+heightTo4_7(20));
+    } completion:^(BOOL finished) {
+        if (!quited) {
+            [self ImageSpring];
+        }
+    }];
 }
 
 - (void)setupBackground {
@@ -86,6 +91,7 @@
     girlv.image = girl;
     [self.view addSubview:girlv];
     girlv.center = self.view.center;
+    girlv.top -= heightTo4_7(16);
     girlRect = girlv.frame;
 }
 
@@ -605,6 +611,7 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [self getBankList];
                 [Singleton shared].isShiwan = NO;
                 [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
@@ -614,6 +621,17 @@
                 }
                 [self setValuesWithDict:[response objectForKey:@"data"]];
                 [self quit];
+            }
+        }
+    }];
+}
+
+- (void)getBankList {
+    [NetworkBusiness bank_listBlock:^(NSError *error, int code, id response) {//获取银行列表
+        if (code == 200) {
+            NSArray *data = [response objectForKey:@"data"];
+            if ([data isKindOfClass:[NSArray class]]) {
+                [Singleton shared].bankList = data;
             }
         }
     }];
@@ -636,6 +654,7 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [self getBankList];
                 [Singleton shared].isShiwan = NO;
                 [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
@@ -703,6 +722,7 @@
             
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [self getBankList];
                 [Singleton shared].isShiwan = NO;
                 [Singleton shared].isLogin = YES;
                 if (jizhuButton.selected) {
@@ -726,6 +746,7 @@
             [Tools showText:descripe];
             NSInteger status = [response integerForKey:@"status"];
             if (status == 200) { //登录成功
+                [self getBankList];
                 [Singleton shared].isShiwan = YES;
                 [Singleton shared].isLogin = YES;
                 [self setValuesWithDict:[response objectForKey:@"data"]];
@@ -750,6 +771,7 @@
 }
 
 - (void)quit {
+    quited = YES;
     [self.navigationController popViewControllerAnimated:NO];
     [Tools animateRemoveView:girlv frame:girlv.frame after:NO];
 }

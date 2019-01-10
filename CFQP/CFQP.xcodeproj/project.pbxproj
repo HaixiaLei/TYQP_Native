@@ -54,6 +54,7 @@
 		6382D71321C4D0EF008BAA58 /* UIColor+FlatUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382D70B21C4D0EF008BAA58 /* UIColor+FlatUI.m */; };
 		638F5C2421CF6DD30000D66E /* ScrollingNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 638F5C2321CF6DD30000D66E /* ScrollingNoticeView.m */; };
 		63AD796F21CA456900414BCF /* TouchID_FaceID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AD796D21CA456800414BCF /* TouchID_FaceID.m */; };
+		63C15D6721D8591300D394D3 /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C15D6621D8591300D394D3 /* GameButton.m */; };
 		63C6E03921C625370006DE2D /* InfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03721C625360006DE2D /* InfiniteScrollView.m */; };
 		63C6E03C21C625830006DE2D /* BasicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E03A21C625830006DE2D /* BasicScrollView.m */; };
 		63C6E04221C646740006DE2D /* BasicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6E04121C646740006DE2D /* BasicView.m */; };
@@ -154,6 +155,8 @@
 		638F5C2321CF6DD30000D66E /* ScrollingNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollingNoticeView.m; sourceTree = "<group>"; };
 		63AD796D21CA456800414BCF /* TouchID_FaceID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchID_FaceID.m; sourceTree = "<group>"; };
 		63AD796E21CA456800414BCF /* TouchID_FaceID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchID_FaceID.h; sourceTree = "<group>"; };
+		63C15D6521D8591300D394D3 /* GameButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameButton.h; sourceTree = "<group>"; };
+		63C15D6621D8591300D394D3 /* GameButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameButton.m; sourceTree = "<group>"; };
 		63C6E03721C625360006DE2D /* InfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfiniteScrollView.m; sourceTree = "<group>"; };
 		63C6E03821C625370006DE2D /* InfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteScrollView.h; sourceTree = "<group>"; };
 		63C6E03A21C625830006DE2D /* BasicScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicScrollView.m; sourceTree = "<group>"; };
@@ -408,6 +411,8 @@
 				63C6E03A21C625830006DE2D /* BasicScrollView.m */,
 				63C6E03821C625370006DE2D /* InfiniteScrollView.h */,
 				63C6E03721C625360006DE2D /* InfiniteScrollView.m */,
+				63C15D6521D8591300D394D3 /* GameButton.h */,
+				63C15D6621D8591300D394D3 /* GameButton.m */,
 			);
 			path = "自定义视图";
 			sourceTree = "<group>";
@@ -584,6 +589,7 @@
 				6382D6CE21C4CD8A008BAA58 /* UIButton+Additional.m in Sources */,
 				6382D6D721C4CD8A008BAA58 /* NSArray+Additional.m in Sources */,
 				6382D6CF21C4CD8A008BAA58 /* UIImage+ImageEffects.m in Sources */,
+				63C15D6721D8591300D394D3 /* GameButton.m in Sources */,
 				6382D6C921C4CD8A008BAA58 /* UIView+Additional.m in Sources */,
 				6382D6D221C4CD8A008BAA58 /* NSDictionary+Additional.m in Sources */,
 				6382D6CD21C4CD8A008BAA58 /* NSDate+Extension.m in Sources */,

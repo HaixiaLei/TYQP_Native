@@ -64,6 +64,41 @@
                            };
     [NetworkManager httpPostForUrl:url showHud:YES showError:YES checkNet:YES Params:para isJson:YES block:block];
 }
+
++ (void)bank_listBlock:(Callback)block {
+    NSString *url = [HOST_P stringByAppendingString:Url_bank_list];
+    [NetworkManager httpPostForUrl:url showHud:NO showError:NO checkNet:NO Params:nil isJson:YES block:block];
+}
+
++ (void)add_carkName:(NSString *)name bid:(NSString *)bid account:(NSString *)account address:(NSString *)address Block:(Callback)block {
+    NSDictionary *para = @{@"real_name":name,
+                           @"bank_Id":bid,
+                           @"bank_Account":account,
+                           @"bank_Address":address,
+                           };
+    NSString *url = [HOST_P stringByAppendingString:Url_add_card];
+    [NetworkManager httpPostForUrl:url Params:para block:block];
+}
+
+//(1:滚动公告；2：公告列表；3：站内信)
++ (void)noticeForTyep:(NSString *)type Block:(Callback)block {
+    NSDictionary *para = @{@"type":type,
+                           };
+    NSString *url = [HOST_P stringByAppendingString:Url_notice];
+    [NetworkManager httpPostForUrl:url showHud:NO showError:NO checkNet:NO Params:para isJson:YES block:block];
+}
+
++ (void)bannerBlock:(Callback)block {
+    NSString *url = [HOST_P stringByAppendingString:Url_banner];
+    [NetworkManager httpPostForUrl:url showHud:NO showError:NO checkNet:NO Params:nil isJson:YES block:block];
+}
+
++ (void)signinBlock:(Callback)block {
+    NSDictionary *para = @{@"action":@"sign_days",
+                           };
+    NSString *url = [HOST_P stringByAppendingString:Url_signin];
+    [NetworkManager httpPostForUrl:url Params:para block:block];
+}
 @end
 
 

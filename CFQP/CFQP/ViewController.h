@@ -10,6 +10,7 @@
 
 @interface ViewController : BasicViewController
 
+@property(nonatomic, strong) NSMutableArray *bankNames;
 
 @end
 

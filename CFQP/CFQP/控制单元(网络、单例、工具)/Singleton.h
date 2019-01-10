@@ -13,7 +13,7 @@
 
 extern AppDelegate *mainDelegate;
 
-@interface Singleton : NSObject
+@interface Singleton : NSObject <AVAudioPlayerDelegate>
 
 + (Singleton *)shared;//创建单例
 
@@ -51,5 +51,10 @@ extern AppDelegate *mainDelegate;
 
 
 @property(nonatomic, copy) NSString *ag_balance;//ag余额
+@property(nonatomic, strong) NSArray *bankList;
+@property(nonatomic, copy) NSString *Bank_Name;
+@property(nonatomic, copy) NSString *Bank_Account;
+@property(nonatomic, copy) NSString *Bank_Address;
+@property(nonatomic, strong) NSArray *gonggao;//公告
 
 @end

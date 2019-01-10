@@ -353,15 +353,15 @@ long long C(int m,int n)    //计算C下m上n
 + (void)popView:(UIView *)popview inView:(UIView *)inview {
     UIView *cover = [[UIView alloc] initWithFrame:inview.bounds];
     [inview addSubview:cover];
-    cover.backgroundColor = ColorHexWithAlpha(0x000000, 0.24);
+    cover.backgroundColor = ColorHexWithAlpha(0x000000, 0.76);
     [cover addSubview:popview];
     popview.center = cover.center;
     
-    popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.4, 0.4);
-    [UIView animateWithDuration:0.18 animations:^{
-        popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+    popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
+    [UIView animateWithDuration:0.13 animations:^{
+        popview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.06, 1.06);
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.1 animations:^{
+        [UIView animateWithDuration:0.05 animations:^{
             popview.transform = CGAffineTransformIdentity;
         }];
     }];
@@ -381,6 +381,7 @@ long long C(int m,int n)    //计算C下m上n
     
     
 }
+
 @end
 
 

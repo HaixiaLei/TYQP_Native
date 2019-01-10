@@ -58,7 +58,7 @@
     
     //调节滚动的速度 快慢
     CGFloat duration = _scrollView.width/(IsIpad?(_speed*1.35):_speed);
-    
+    NSLog(@"scroll的宽度：%f,,,,speed:%f,,,,duration:%f",_scrollView.width,_speed,duration);
     _scrollView.left = self.width;
     __weak ScrollingNoticeView *ws = self;
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{

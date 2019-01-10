@@ -29,6 +29,11 @@
 #define Url_forget_pwd                       @"api/forget_pwd.php"
 #define Url_winningnews                      @"member/winningnews.php"//赢钱信息
 #define Url_ag_api                           @"api/ag/ag_api.php"
+#define Url_bank_list                        @"api/account/bank_list.php"//银行列表
+#define Url_add_card                         @"api/account/bank_add_card.php"//添加银行卡
+#define Url_notice                           @"api/site/notice.php"//公告type=1(1:滚动公告；2：公告列表；3：站内信)
+#define Url_banner                           @"api/site/banner.php"
+#define Url_signin                           @"api/signin.php" //获取签到天数
 
 @interface NetworkBusiness : NSObject
 
@@ -38,6 +43,11 @@
 + (void)forget_pwd:(NSString *)username realname:(NSString *)realname withdraw_password:(NSString *)withdraw_password new_password:(NSString *)new_password Block:(Callback)block;
 + (void)winningnewsBlock:(Callback)block;
 + (void)balanceBlock:(Callback)block;
++ (void)bank_listBlock:(Callback)block;
++ (void)add_carkName:(NSString *)name bid:(NSString *)bid account:(NSString *)account address:(NSString *)address Block:(Callback)block;
++ (void)noticeForTyep:(NSString *)type Block:(Callback)block;
++ (void)bannerBlock:(Callback)block;
++ (void)signinBlock:(Callback)block;
 
 @end
 
